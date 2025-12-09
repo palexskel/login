@@ -7,15 +7,14 @@
   <style>
     :root {
       --dela-primary: #00a9e0;
-      --dela-primary-soft: #e6f6fc;
-      --dela-dark: #003b5c;
-      --dela-text: #243447;
-      --dela-muted: #6c7a89;
-      --dela-border: #e1e4ea;
-      --dela-bg: #f5f7fa;
-      --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.08);
-      --radius-lg: 18px;
-      --radius-xl: 24px;
+      --dela-primary-dark: #0080aa;
+      --dela-bg: #f4f6f8;
+      --dela-text: #2e3b4a;
+      --dela-muted: #6b7280;
+      --dela-border: #dde2eb;
+      --dela-radius: 6px;
+      --dela-radius-lg: 10px;
+      --dela-shadow-soft: 0 8px 22px rgba(0, 0, 0, 0.06);
     }
 
     * {
@@ -26,8 +25,10 @@
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
-      background: radial-gradient(circle at top left, #ffffff 0, var(--dela-bg) 55%);
+      font-size: 16px;
+      line-height: 1.5;
       color: var(--dela-text);
+      background-color: var(--dela-bg);
     }
 
     a {
@@ -39,392 +40,378 @@
       text-decoration: underline;
     }
 
-    /* Top brand bar */
-    .top-bar {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    /* Top bar – simplified to feel like main site header */
+    .c-topbar {
+      background-color: #ffffff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
 
-    .top-bar-inner {
-      max-width: 960px;
+    .c-topbar__inner {
+      max-width: 1040px;
       margin: 0 auto;
-      padding: 10px 20px;
+      padding: 10px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      font-size: 13px;
+      font-size: 14px;
     }
 
-    .brand {
+    .c-topbar__brand {
       display: flex;
       align-items: center;
       gap: 8px;
+      color: var(--dela-text);
       font-weight: 600;
-      color: var(--dela-dark);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
     }
 
-    .brand-logo {
+    .c-topbar__logo {
       width: 26px;
       height: 26px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, var(--dela-primary), var(--dela-dark));
+      border-radius: 4px;
+      background: var(--dela-primary);
     }
 
-    .lang-pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--dela-primary-soft);
-      color: var(--dela-dark);
-      font-weight: 500;
+    .c-topbar__lang {
+      font-size: 14px;
+      color: var(--dela-muted);
     }
 
-    .lang-pill span {
-      opacity: 0.6;
+    .c-topbar__lang strong {
+      color: var(--dela-text);
     }
 
     /* Main layout */
-    .main {
+    .c-main {
       min-height: calc(100vh - 50px);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 32px 16px;
+      padding: 32px 16px 40px;
     }
 
-    .auth-shell {
+    .c-container {
       width: 100%;
-      max-width: 460px;
+      max-width: 480px;
     }
 
-    .auth-header {
-      text-align: center;
+    .c-page-heading {
+      text-align: left;
       margin-bottom: 18px;
     }
 
-    .auth-kicker {
-      font-size: 11px;
+    .c-page-heading__kicker {
+      font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.14em;
       color: var(--dela-muted);
       margin-bottom: 6px;
     }
 
-    .auth-header h1 {
+    .c-page-heading h1 {
       margin: 0;
-      font-size: clamp(22px, 3vw, 26px);
-      color: var(--dela-dark);
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--dela-text);
     }
 
-    .auth-subtitle {
-      margin-top: 6px;
+    .c-page-heading__sub {
+      margin-top: 4px;
+      font-size: 14px;
+      color: var(--dela-muted);
+      max-width: 420px;
+    }
+
+    /* Subtle NL hint */
+    .c-alert--subtle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      margin-bottom: 16px;
+      background-color: #ffffff;
+      border-radius: 999px;
+      border: 1px dashed rgba(0, 0, 0, 0.08);
       font-size: 13px;
       color: var(--dela-muted);
     }
 
-    /* Main card */
-    .card {
-      background: #ffffff;
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-soft);
-      padding: 22px 22px 18px;
+    .c-alert--subtle-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--dela-primary);
+      flex-shrink: 0;
     }
 
     @media (max-width: 480px) {
-      .card {
-        padding: 18px 16px 16px;
-        border-radius: var(--radius-lg);
+      .c-alert--subtle {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
 
-    .card-section + .card-section {
-      border-top: 1px solid var(--dela-border);
-      margin-top: 16px;
-      padding-top: 16px;
+    /* Card */
+    .c-card {
+      background-color: #ffffff;
+      border-radius: var(--dela-radius-lg);
+      box-shadow: var(--dela-shadow-soft);
+      padding: 20px 20px 16px;
     }
 
-    .card-title-row {
+    @media (max-width: 480px) {
+      .c-card {
+        padding: 16px 14px 14px;
+      }
+    }
+
+    .c-card__section + .c-card__section {
+      border-top: 1px solid var(--dela-border);
+      margin-top: 14px;
+      padding-top: 14px;
+    }
+
+    .c-card__header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      margin-bottom: 12px;
       gap: 8px;
-      margin-bottom: 14px;
     }
 
-    .card-title {
+    .c-card__title {
       margin: 0;
       font-size: 16px;
       font-weight: 600;
-      color: var(--dela-dark);
+      color: var(--dela-text);
     }
 
-    .card-meta {
+    .c-card__meta {
       font-size: 12px;
       color: var(--dela-muted);
     }
 
-    /* Form controls */
-    .form-group {
+    /* Form */
+    .c-form-group {
       margin-bottom: 14px;
     }
 
-    .form-label {
+    .c-label {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      font-size: 13px;
-      color: var(--dela-dark);
+      font-size: 14px;
       font-weight: 500;
       margin-bottom: 4px;
+      color: var(--dela-text);
     }
 
-    .form-label span.helper {
-      font-size: 11px;
+    .c-label__helper {
+      font-size: 12px;
       color: var(--dela-muted);
       font-weight: 400;
     }
 
-    .input-shell {
+    .c-input-wrap {
       position: relative;
     }
 
-    input[type="email"],
-    input[type="password"] {
+    .c-input {
       width: 100%;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid var(--dela-border);
-      background: #fbfcfe;
+      padding: 9px 11px;
       font-size: 14px;
-      transition: border-color 0.16s ease, box-shadow 0.16s ease,
-        background 0.16s ease;
+      border-radius: var(--dela-radius);
+      border: 1px solid var(--dela-border);
+      background-color: #f9fafb;
+      transition: border-color 0.14s ease, box-shadow 0.14s ease,
+        background-color 0.14s ease;
     }
 
-    input[type="email"]:focus,
-    input[type="password"]:focus {
+    .c-input:focus {
       outline: none;
       border-color: var(--dela-primary);
-      box-shadow: 0 0 0 3px rgba(0, 169, 224, 0.2);
-      background: #ffffff;
+      box-shadow: 0 0 0 2px rgba(0, 169, 224, 0.35);
+      background-color: #ffffff;
     }
 
-    input::placeholder {
-      color: #b0b8c3;
+    .c-input::placeholder {
+      color: #a0a8b5;
     }
 
-    .toggle-password {
+    .c-input-toggle {
       position: absolute;
-      right: 8px;
+      right: 6px;
       top: 50%;
       transform: translateY(-50%);
       border: none;
       background: none;
+      padding: 4px 6px;
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      padding: 4px 6px;
-      border-radius: 999px;
-      cursor: pointer;
       color: var(--dela-muted);
+      cursor: pointer;
+      border-radius: 999px;
     }
 
-    .toggle-password:hover {
-      background: rgba(0, 0, 0, 0.04);
+    .c-input-toggle:hover {
+      background-color: rgba(0, 0, 0, 0.04);
     }
 
-    .forgot-row {
+    .c-form__links {
       display: flex;
       justify-content: flex-end;
-      margin: 2px 0 10px;
+      margin-top: 2px;
+      margin-bottom: 10px;
     }
 
-    .forgot-row a {
-      font-size: 12px;
+    .c-form__links a {
+      font-size: 13px;
     }
 
     /* Buttons */
-    .btn {
+    .c-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      padding: 9px 16px;
       border-radius: 999px;
-      border: none;
-      padding: 10px 16px;
+      border: 1px solid transparent;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
-      transition: transform 0.06s ease, box-shadow 0.16s ease,
-        background 0.16s ease, border-color 0.16s ease;
       white-space: nowrap;
+      transition: background-color 0.14s ease, border-color 0.14s ease,
+        color 0.14s ease, box-shadow 0.14s ease, transform 0.06s ease;
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--dela-primary), #0089b8);
+    .c-btn--primary {
+      background-color: var(--dela-primary);
+      border-color: var(--dela-primary);
       color: #ffffff;
-      box-shadow: 0 16px 32px rgba(0, 169, 224, 0.35);
       width: 100%;
       justify-content: center;
+      box-shadow: 0 6px 14px rgba(0, 169, 224, 0.4);
     }
 
-    .btn-primary:hover {
+    .c-btn--primary:hover {
+      background-color: var(--dela-primary-dark);
+      border-color: var(--dela-primary-dark);
       transform: translateY(-1px);
-      box-shadow: 0 20px 40px rgba(0, 169, 224, 0.45);
+      box-shadow: 0 10px 20px rgba(0, 169, 224, 0.45);
     }
 
-    .btn-primary:active {
-      transform: translateY(0);
-      box-shadow: 0 10px 24px rgba(0, 169, 224, 0.35);
-    }
-
-    .btn-outline {
-      background: #ffffff;
-      border: 1px solid var(--dela-border);
-      color: var(--dela-dark);
-      font-weight: 500;
-      font-size: 13px;
-    }
-
-    .btn-outline:hover {
-      background: #f5f7fa;
-      transform: translateY(-1px);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
-    }
-
-    .btn-ghost {
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(0, 0, 0, 0.03);
-      color: var(--dela-dark);
-      font-size: 13px;
+    .c-btn--outline {
+      background-color: #ffffff;
+      border-color: var(--dela-border);
+      color: var(--dela-text);
       font-weight: 500;
     }
 
-    .btn-ghost:hover {
-      background: #f5f7fa;
+    .c-btn--outline:hover {
+      background-color: #f3f4f6;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
     }
 
-    .btn-xs {
-      padding: 6px 10px;
-      font-size: 11px;
+    .c-btn--ghost {
+      background-color: #ffffff;
+      border-color: rgba(0, 0, 0, 0.05);
+      color: var(--dela-text);
+      font-size: 14px;
       font-weight: 500;
     }
 
-    .btn-row {
+    .c-btn--ghost:hover {
+      background-color: #f3f4f6;
+    }
+
+    .c-btn--xs {
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .c-btn-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-top: 10px;
     }
 
-    .btn-alt {
+    .c-btn--alt {
       flex: 1 1 0;
       min-width: 0;
-      border-radius: 12px;
+      border-radius: 8px;
+      font-size: 13px;
       padding-block: 8px;
     }
 
-    .btn-alt span.icon {
+    .c-btn__icon {
       width: 18px;
       height: 18px;
-      border-radius: 6px;
+      border-radius: 4px;
+      margin-right: 6px;
       flex-shrink: 0;
     }
 
-    .btn-itsme span.icon {
-      background: radial-gradient(circle at 25% 20%, #ffffff, #f39c12);
+    .c-btn__icon--itsme {
+      background: radial-gradient(circle at 30% 20%, #ffffff, #f39c12);
     }
 
-    .btn-eid span.icon {
+    .c-btn__icon--eid {
       border: 2px solid var(--dela-primary);
       background: #ffffff;
     }
 
-    /* NL hint (subtle) */
-    .nl-hint {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px dashed rgba(0, 0, 0, 0.08);
-      background: #ffffffda;
-      font-size: 11px;
-      color: var(--dela-muted);
-      margin: 8px auto 16px;
-      max-width: 420px;
-    }
-
-    .nl-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--dela-primary);
-      flex-shrink: 0;
-    }
-
-    @media (max-width: 480px) {
-      .nl-hint {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
     /* Divider text */
-    .section-divider {
+    .c-divider {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--dela-muted);
       margin: 14px 0 6px;
+      font-size: 12px;
+      color: var(--dela-muted);
     }
 
-    .section-divider::before,
-    .section-divider::after {
+    .c-divider::before,
+    .c-divider::after {
       content: "";
       flex: 1;
       height: 1px;
       background: linear-gradient(
         to right,
         transparent,
-        rgba(0, 0, 0, 0.12),
+        rgba(0, 0, 0, 0.1),
         transparent
       );
     }
 
-    .hint {
+    .c-hint {
       margin-top: 10px;
-      font-size: 11px;
+      font-size: 12px;
       color: var(--dela-muted);
     }
 
-    .hint strong {
-      color: var(--dela-dark);
+    .c-hint strong {
+      color: var(--dela-text);
     }
 
-    /* "Meer info" section */
-    .more-info {
-      max-width: 460px;
-      margin: 14px auto 0;
-      font-size: 13px;
-      color: var(--dela-muted);
+    /* "Meer info" accordions below card */
+    .c-moreinfo {
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--dela-text);
     }
 
-    details.info-block {
-      border-radius: 14px;
+    .c-accordion {
+      background-color: #ffffff;
+      border-radius: var(--dela-radius-lg);
       border: 1px solid var(--dela-border);
-      background: #ffffff;
       padding: 10px 12px;
       margin-bottom: 10px;
     }
 
-    details.info-block summary {
+    .c-accordion summary {
       list-style: none;
       cursor: pointer;
       display: flex;
@@ -432,150 +419,161 @@
       justify-content: space-between;
     }
 
-    details.info-block summary::-webkit-details-marker {
+    .c-accordion summary::-webkit-details-marker {
       display: none;
     }
 
-    .summary-left {
+    .c-accordion__left {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       font-weight: 500;
-      color: var(--dela-dark);
+      color: var(--dela-text);
+      font-size: 14px;
     }
 
-    .summary-icon {
+    .c-accordion__icon {
       width: 18px;
       height: 18px;
-      border-radius: 999px;
-      background: var(--dela-primary-soft);
+      border-radius: 50%;
+      background-color: #e6f6fc;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
-      color: var(--dela-dark);
+      font-size: 11px;
+      color: var(--dela-text);
       flex-shrink: 0;
     }
 
-    .summary-chevron {
+    .c-accordion__chevron {
       font-size: 14px;
       color: var(--dela-muted);
       margin-left: 8px;
     }
 
-    details[open] .summary-chevron {
+    details[open] .c-accordion__chevron {
       transform: rotate(90deg);
     }
 
-    details.info-block p {
+    .c-accordion p {
       margin-top: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: var(--dela-muted);
     }
 
-    details.info-block ul,
-    details.info-block ol {
+    .c-accordion ul,
+    .c-accordion ol {
       margin-top: 6px;
       margin-bottom: 6px;
       padding-left: 18px;
+      font-size: 13px;
+      color: var(--dela-muted);
     }
 
-    .footnote {
+    .c-accordion__subheading {
+      margin-top: 6px;
+      margin-bottom: 2px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dela-text);
+    }
+
+    .c-footnote {
       font-size: 11px;
       color: var(--dela-muted);
       margin-top: 4px;
     }
 
-    .info-small-heading {
+    .c-linklist {
       font-size: 12px;
-      font-weight: 600;
-      color: var(--dela-dark);
-      margin-top: 6px;
-    }
-
-    .info-links {
-      font-size: 11px;
+      color: var(--dela-muted);
       line-height: 1.5;
       margin-top: 4px;
+    }
+
+    .c-linklist a {
+      font-size: 12px;
     }
   </style>
 </head>
 <body>
-  <header class="top-bar">
-    <div class="top-bar-inner">
-      <div class="brand">
-        <div class="brand-logo" aria-hidden="true"></div>
+  <header class="c-topbar">
+    <div class="c-topbar__inner">
+      <div class="c-topbar__brand">
+        <div class="c-topbar__logo" aria-hidden="true"></div>
         <span>DELA • MijnDELA</span>
       </div>
-      <div class="lang-pill">
-        NL <span>/ FR</span>
+      <div class="c-topbar__lang">
+        <strong>NL</strong> / FR
       </div>
     </div>
   </header>
 
-  <main class="main">
-    <div class="auth-shell">
+  <main class="c-main">
+    <div class="c-container">
 
-      <!-- Subtle NL hint -->
-      <div class="nl-hint" aria-label="Informatie voor Nederlandse klanten">
-        <span class="nl-dot" aria-hidden="true"></span>
+      <!-- Subtle NL redirect; small outlined button -->
+      <div class="c-alert--subtle" aria-label="Informatie voor Nederlandse klanten">
+        <span class="c-alert--subtle-dot" aria-hidden="true"></span>
         <span>
-          Ben je klant bij <strong>DELA Nederland</strong>? Dan zit je waarschijnlijk op de Belgische loginpagina.
+          Ben je klant bij <strong>DELA Nederland</strong>? Dan zit je mogelijk op de Belgische loginpagina.
         </span>
-        <a
-          href="https://login.dela.nl/login"
-          class="btn btn-outline btn-xs"
-        >
+        <a href="https://login.dela.nl/login" class="c-btn c-btn--outline c-btn--xs">
           Naar MijnDELA Nederland
         </a>
       </div>
 
-      <header class="auth-header">
-        <div class="auth-kicker">Online omgeving</div>
+      <header class="c-page-heading">
+        <div class="c-page-heading__kicker">Online omgeving</div>
         <h1>Aanmelden bij MijnDELA</h1>
-        <p class="auth-subtitle">
+        <p class="c-page-heading__sub">
           Log in met je e-mailadres en wachtwoord of meld je eenvoudig aan via itsme of eID.
         </p>
       </header>
 
-      <section aria-label="Aanmelden bij MijnDELA" class="card">
-        <div class="card-section">
-          <div class="card-title-row">
-            <h2 class="card-title">Inloggen</h2>
-            <span class="card-meta">Veilig en persoonlijk</span>
+      <!-- Main login card -->
+      <section aria-label="Aanmelden bij MijnDELA" class="c-card">
+        <div class="c-card__section">
+          <div class="c-card__header">
+            <h2 class="c-card__title">Inloggen</h2>
+            <span class="c-card__meta">Veilig en persoonlijk</span>
           </div>
 
           <form>
-            <div class="form-group">
-              <label for="email" class="form-label">
+            <div class="c-form-group">
+              <label for="email" class="c-label">
                 <span>E-mailadres</span>
-                <span class="helper">Bijvoorbeeld: naam@voorbeeld.be</span>
+                <span class="c-label__helper">Bijvoorbeeld: naam@voorbeeld.be</span>
               </label>
               <input
-                type="email"
                 id="email"
                 name="email"
+                type="email"
+                class="c-input"
                 autocomplete="email"
                 placeholder="naam@voorbeeld.be"
                 required
               />
             </div>
 
-            <div class="form-group">
-              <label for="password" class="form-label">
+            <div class="c-form-group">
+              <label for="password" class="c-label">
                 <span>Wachtwoord</span>
               </label>
-              <div class="input-shell">
+              <div class="c-input-wrap">
                 <input
-                  type="password"
                   id="password"
                   name="password"
+                  type="password"
+                  class="c-input"
                   autocomplete="current-password"
                   placeholder="••••••••"
                   required
                 />
                 <button
                   type="button"
-                  class="toggle-password"
+                  class="c-input-toggle"
                   aria-pressed="false"
                   aria-label="Wachtwoord tonen of verbergen"
                   onclick="togglePasswordVisibility()"
@@ -585,65 +583,65 @@
               </div>
             </div>
 
-            <div class="forgot-row">
-              <a href="#" class="forgot-link">Wachtwoord vergeten?</a>
+            <div class="c-form__links">
+              <a href="#">Wachtwoord vergeten?</a>
             </div>
 
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="c-btn c-btn--primary">
               Aanmelden
             </button>
           </form>
 
-          <div class="section-divider">
+          <div class="c-divider">
             <span>Of meld je aan via</span>
           </div>
 
-          <div class="btn-row" aria-label="Alternatieve aanmeldmethodes">
-            <a href="#" class="btn btn-outline btn-alt btn-itsme">
-              <span class="icon" aria-hidden="true"></span>
+          <div class="c-btn-row" aria-label="Alternatieve aanmeldmethodes">
+            <a href="#" class="c-btn c-btn--outline c-btn--alt">
+              <span class="c-btn__icon c-btn__icon--itsme" aria-hidden="true"></span>
               <span>Aanmelden met itsme</span>
             </a>
-            <a href="#" class="btn btn-outline btn-alt btn-eid">
-              <span class="icon" aria-hidden="true"></span>
+            <a href="#" class="c-btn c-btn--outline c-btn--alt">
+              <span class="c-btn__icon c-btn__icon--eid" aria-hidden="true"></span>
               <span>Aanmelden met eID</span>
             </a>
           </div>
 
-          <p class="hint">
-            Ben je bij DELA verzekerd? Dan kan je via MijnDELA o.a. je begunstigde(n) wijzigen,
-            polisdocumenten bekijken of je uitvaartwensen koppelen aan je polis.
-            (*) Niet mogelijk voor Natura-klanten.
+          <p class="c-hint">
+            Ben je bij DELA verzekerd? Dan kan je via MijnDELA heel wat zaken zelf beheren,
+            zoals je begunstigde(n) wijzigen, polisdocumenten bekijken of je uitvaartwensen
+            koppelen aan je polis. <strong>(*) Niet mogelijk voor Natura-klanten.</strong>
           </p>
         </div>
 
-        <div class="card-section">
-          <div class="card-title-row">
-            <h2 class="card-title">Nieuw hier?</h2>
+        <div class="c-card__section">
+          <div class="c-card__header">
+            <h2 class="c-card__title">Nieuw hier?</h2>
           </div>
-          <p style="font-size:13px; margin:0 0 10px; color:var(--dela-muted);">
+          <p style="font-size:14px; margin:0 0 8px; color:var(--dela-muted);">
             Nog geen toegang tot MijnDELA? Maak in enkele stappen een account aan.
           </p>
-          <a href="#" class="btn btn-ghost">
+          <a href="#" class="c-btn c-btn--ghost">
             Maak een account aan
           </a>
         </div>
       </section>
 
-      <!-- Compact "meer info" area containing all existing copy, but collapsed -->
-      <section class="more-info" aria-label="Meer informatie over MijnDELA en Natura">
-        <details class="info-block">
+      <!-- "Component guide" style: all extra info compacted into accordions -->
+      <section class="c-moreinfo" aria-label="Meer informatie over MijnDELA en Natura">
+        <details class="c-accordion">
           <summary>
-            <span class="summary-left">
-              <span class="summary-icon">i</span>
+            <span class="c-accordion__left">
+              <span class="c-accordion__icon">i</span>
               <span>Wat kan je doen in MijnDELA?</span>
             </span>
-            <span class="summary-chevron">›</span>
+            <span class="c-accordion__chevron">›</span>
           </summary>
           <p>
             Iedereen kan zijn <a href="#">laatste wensen</a> vastleggen of wijzigen.
           </p>
-          <p>
-            <strong>Ben je verzekerd* bij DELA? Dan kan je in deze omgeving ook:</strong>
+          <p class="c-accordion__subheading">
+            Ben je verzekerd* bij DELA? Dan kan je in deze omgeving ook:
           </p>
           <ul>
             <li>Je polis raadplegen en een duplicaat ervan downloaden</li>
@@ -651,24 +649,24 @@
             <li>Jouw persoonlijke gegevens of je begunstigden wijzigen</li>
             <li>Enkele betalingsgegevens wijzigen</li>
           </ul>
-          <p class="footnote">
+          <p class="c-footnote">
             *Deze mogelijkheid geldt voor klanten met een DELA-verzekering, behalve bij Natura-polissen.
           </p>
         </details>
 
-        <details class="info-block">
+        <details class="c-accordion">
           <summary>
-            <span class="summary-left">
-              <span class="summary-icon">?</span>
+            <span class="c-accordion__left">
+              <span class="c-accordion__icon">?</span>
               <span>Informatie over Natura-polissen</span>
             </span>
-            <span class="summary-chevron">›</span>
+            <span class="c-accordion__chevron">›</span>
           </summary>
 
-          <p class="info-small-heading">Hoe weet ik of ik een Natura-polis heb?</p>
+          <p class="c-accordion__subheading">Hoe weet ik of ik een Natura-polis heb?</p>
           <p>Jouw polisnummer bestaat uit een reeks van 1 tot 6 cijfers.</p>
 
-          <p class="info-small-heading">Wat moet ik doen als ik mijn Natura-polis wil inkijken of wijzigen?</p>
+          <p class="c-accordion__subheading">Wat moet ik doen als ik mijn Natura-polis wil inkijken of wijzigen?</p>
           <p>
             Door technische beperkingen is het niet mogelijk om deze polis rechtstreeks aan te passen
             of te raadplegen in MijnDELA. Onze excuses voor het ongemak.
@@ -688,7 +686,7 @@
             </li>
           </ul>
 
-          <p class="info-small-heading">
+          <p class="c-accordion__subheading">
             Kunnen mijn uitvaartwensen aan mijn Natura-polis gekoppeld worden?
           </p>
           <p>
@@ -712,17 +710,17 @@
           </p>
         </details>
 
-        <details class="info-block">
+        <details class="c-accordion">
           <summary>
-            <span class="summary-left">
-              <span class="summary-icon">⋯</span>
+            <span class="c-accordion__left">
+              <span class="c-accordion__icon">⋯</span>
               <span>Vooraf regelen, MijnDELA & uitvaartinformatie</span>
             </span>
-            <span class="summary-chevron">›</span>
+            <span class="c-accordion__chevron">›</span>
           </summary>
 
-          <p class="info-small-heading">Vooraf regelen</p>
-          <div class="info-links">
+          <div class="c-accordion__subheading">Vooraf regelen</div>
+          <div class="c-linklist">
             <a href="#">Uitvaartverzekering</a> •
             <a href="#">Wat is een uitvaartverzekering?</a> •
             <a href="#">DELA Uitvaartzorgplan</a> •
@@ -732,25 +730,29 @@
             <a href="#">Jouw uitvaartwensen vastleggen</a>
           </div>
 
-          <p class="info-small-heading">MijnDELA</p>
-          <div class="info-links">
+          <div class="c-accordion__subheading">MijnDELA</div>
+          <div class="c-linklist">
             <a href="#">Uitvaartwensen beheren</a> •
             <a href="#">Polis beheren</a> •
             <a href="#">Download het DELA kaartje</a>
           </div>
 
-          <p class="info-small-heading">Uitvaart & contact</p>
-          <div class="info-links">
+          <div class="c-accordion__subheading">Uitvaart</div>
+          <div class="c-linklist">
             <a href="#">Wat te doen bij overlijden?</a> •
             <a href="#">Een uitvaart regelen</a> •
             <a href="#">Inspiratie</a> •
-            <a href="#">Onze uitvaartlocaties</a><br />
-            Overlijden melden: 078 05 05 78 (24/24 - 7/7)<br />
-            Klantendienst: 02 800 87 87 (ma - vr 8u30 - 17u)
+            <a href="#">Onze uitvaartlocaties</a>
           </div>
 
-          <p class="info-small-heading">Onze organisatie & juridische info</p>
-          <div class="info-links">
+          <div class="c-accordion__subheading">Overlijden melden</div>
+          <div class="c-linklist">
+            078 05 05 78 (24/24 - 7/7) •
+            <a href="#">Vind een begrafenisondernemer</a>
+          </div>
+
+          <div class="c-accordion__subheading">Onze organisatie & juridische info</div>
+          <div class="c-linklist">
             <a href="#">Over DELA</a> •
             <a href="#">Werken bij DELA</a> •
             <a href="#">DELA Fonds</a> •
@@ -765,11 +767,16 @@
             <a href="#">Toegankelijkheidsverklaring</a>
           </div>
 
-          <p class="info-small-heading">Service & toegang voor professionals</p>
-          <div class="info-links">
+          <div class="c-accordion__subheading">Service & contact</div>
+          <div class="c-linklist">
             <a href="#">Ik heb een vraag</a> •
             <a href="#">Ik wens een afspraak</a> •
             <a href="#">Ik wens een brochure per post</a><br />
+            02 800 87 87 (ma - vr 8u30 - 17u)
+          </div>
+
+          <div class="c-accordion__subheading">Professionals</div>
+          <div class="c-linklist">
             <a href="https://www.delaconnect.be">Aanmelden in DELAconnect</a> •
             <a href="#">MVO code</a>
           </div>
@@ -781,7 +788,7 @@
   <script>
     function togglePasswordVisibility() {
       const input = document.getElementById("password");
-      const btn = document.querySelector(".toggle-password");
+      const btn = document.querySelector(".c-input-toggle");
       const isHidden = input.type === "password";
       input.type = isHidden ? "text" : "password";
       btn.textContent = isHidden ? "Verbergen" : "Tonen";
