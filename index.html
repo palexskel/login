@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aanmelden bij MijnDELA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --dela-primary: #00a9e0;
+      --dela-primary-soft: #e6f6fc;
+      --dela-dark: #003b5c;
+      --dela-text: #243447;
+      --dela-muted: #6c7a89;
+      --dela-border: #e1e4ea;
+      --dela-bg: #f5f7fa;
+      --dela-danger: #c0392b;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.08);
+      --shadow-subtle: 0 10px 26px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top left, #ffffff 0, var(--dela-bg) 55%);
+      color: var(--dela-text);
+    }
+
+    a {
+      color: var(--dela-primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top brand bar (simple mock of global header) */
+    .top-bar {
+      background: #ffffffcc;
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .top-bar-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--dela-dark);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--dela-primary), var(--dela-dark));
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--dela-muted);
+    }
+
+    .lang-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--dela-primary-soft);
+      color: var(--dela-dark);
+      font-weight: 500;
+    }
+
+    .lang-pill span {
+      opacity: 0.5;
+    }
+
+    /* Main layout */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .main-inner {
+      max-width: 1120px;
+      margin: 32px auto 40px;
+      padding: 0 20px 20px;
+      width: 100%;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 920px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .main-inner {
+        margin-top: 20px;
+      }
+    }
+
+    .page-title {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .page-kicker {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--dela-muted);
+      font-weight: 600;
+    }
+
+    h1 {
+      font-size: clamp(24px, 3vw, 30px);
+      color: var(--dela-dark);
+      margin: 0;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--dela-muted);
+      max-width: 440px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+      padding: 26px 26px 24px;
+    }
+
+    .card--flat {
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--dela-dark);
+      margin: 0;
+    }
+
+    .card-meta {
+      font-size: 13px;
+      color: var(--dela-muted);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--dela-dark);
+      margin-bottom: 6px;
+    }
+
+    .form-label span.helper {
+      font-size: 12px;
+      color: var(--dela-muted);
+      font-weight: 400;
+    }
+
+    .input-shell {
+      position: relative;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--dela-border);
+      background: #fdfefe;
+      font-size: 14px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease,
+        background 0.15s ease, transform 0.05s ease;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      border-color: var(--dela-primary);
+      box-shadow: 0 0 0 3px rgba(0, 169, 224, 0.18);
+      background: #ffffff;
+    }
+
+    input::placeholder {
+      color: #afb7c2;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: none;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 6px;
+      border-radius: 999px;
+      cursor: pointer;
+      color: var(--dela-muted);
+    }
+
+    .toggle-password:hover {
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .forgot-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 6px;
+      margin-bottom: 2px;
+    }
+
+    .forgot-link {
+      font-size: 13px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      border: none;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.05s ease, box-shadow 0.12s ease,
+        background 0.12s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--dela-primary), #0089b8);
+      color: #ffffff;
+      box-shadow: 0 14px 30px rgba(0, 169, 224, 0.3);
+      width: 100%;
+      justify-content: center;
+      margin-top: 6px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(0, 169, 224, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 20px rgba(0, 169, 224, 0.3);
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      border: 1px solid var(--dela-border);
+      color: var(--dela-dark);
+    }
+
+    .btn-outline:hover {
+      background: #f5f7fa;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      color: var(--dela-dark);
+    }
+
+    .btn-sm {
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .btn-itsme {
+      border-radius: 12px;
+      font-size: 13px;
+      padding: 10px 14px;
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .btn-itsme span.icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: radial-gradient(circle at 30% 20%, #ffffff, #f39c12);
+    }
+
+    .btn-eid span.icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--dela-primary);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn-eid {
+      border-radius: 12px;
+      font-size: 13px;
+      padding: 10px 14px;
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .btn-secondary-link {
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--dela-muted);
+    }
+
+    .btn-secondary-link:hover {
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--dela-muted);
+      margin: 18px 0 6px;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(0, 0, 0, 0.1),
+        transparent
+      );
+    }
+
+    .hint-row {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--dela-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .hint-badge {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--dela-primary-soft);
+      color: var(--dela-dark);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-weight: 600;
+    }
+
+    /* Right column content */
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--dela-primary-soft);
+      color: var(--dela-dark);
+      font-weight: 500;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 10px;
+      background: var(--dela-primary);
+    }
+
+    .benefits-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dela-dark);
+      margin-top: 10px;
+      margin-bottom: 8px;
+    }
+
+    .benefits-text {
+      font-size: 14px;
+      color: var(--dela-muted);
+      margin-bottom: 12px;
+    }
+
+    .benefits-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: var(--dela-text);
+    }
+
+    .benefits-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .benefits-list li::before {
+      content: "•";
+      color: var(--dela-primary);
+      font-size: 18px;
+      line-height: 1;
+      margin-top: -2px;
+    }
+
+    .footnote {
+      font-size: 11px;
+      color: var(--dela-muted);
+      margin-top: 6px;
+    }
+
+    /* Details/accordion for Natura info */
+    details {
+      border-radius: 14px;
+      border: 1px solid var(--dela-border);
+      background: #ffffff;
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+
+    details + details {
+      margin-top: 10px;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 500;
+      color: var(--dela-dark);
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .summary-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .summary-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--dela-primary-soft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--dela-dark);
+      flex-shrink: 0;
+    }
+
+    .summary-chevron {
+      font-size: 14px;
+      color: var(--dela-muted);
+      margin-left: 10px;
+    }
+
+    details[open] .summary-chevron {
+      transform: rotate(90deg);
+    }
+
+    details[open] {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    details p,
+    details ul {
+      margin-top: 10px;
+      margin-bottom: 8px;
+      color: var(--dela-muted);
+    }
+
+    details ul {
+      padding-left: 18px;
+    }
+
+    details li {
+      margin-bottom: 4px;
+    }
+
+    .natura-highlight {
+      font-size: 12px;
+      color: var(--dela-danger);
+      margin-top: 6px;
+    }
+
+    /* Secondary footer info box (Vooraf regelen / Uitvaart / enz.) */
+    .info-footer {
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--dela-muted);
+      line-height: 1.55;
+    }
+
+    .info-footer strong {
+      color: var(--dela-dark);
+      font-size: 12.5px;
+    }
+
+    .info-footer a {
+      font-size: 12px;
+    }
+
+    .info-footer-section {
+      margin-bottom: 6px;
+    }
+
+    /* Small screen tweaks */
+    @media (max-width: 600px) {
+      .card {
+        border-radius: 18px;
+        padding: 22px 18px 20px;
+      }
+      .top-bar-inner {
+        padding-inline: 14px;
+      }
+      .page-subtitle {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-shell">
+  <!-- Simple brand/header bar -->
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true"></div>
+        <div>DELA • MijnDELA</div>
+      </div>
+      <div class="top-actions">
+        <span class="lang-pill">NL <span>/ FR</span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="main">
+    <div class="main-inner">
+      <div class="page-title">
+        <span class="page-kicker">Online omgeving</span>
+        <h1>Aanmelden bij MijnDELA</h1>
+        <p class="page-subtitle">
+          Beheer jouw polis, uitvaartwensen en persoonlijke gegevens in een veilige, gebruiksvriendelijke omgeving.
+        </p>
+      </div>
+
+      <div class="grid">
+        <!-- LEFT COLUMN: LOGIN -->
+        <section aria-label="Aanmelden">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Log in met e-mail en wachtwoord</h2>
+              <span class="card-meta">Veilig en persoonlijk</span>
+            </div>
+
+            <form>
+              <div class="form-group">
+                <label class="form-label" for="email">
+                  <span>E-mailadres</span>
+                  <span class="helper">Bijvoorbeeld: naam@voorbeeld.be</span>
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="naam@voorbeeld.be"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="password">
+                  <span>Wachtwoord</span>
+                </label>
+                <div class="input-shell">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="••••••••"
+                    autocomplete="current-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="toggle-password"
+                    aria-pressed="false"
+                    aria-label="Wachtwoord tonen of verbergen"
+                    onclick="togglePasswordVisibility()"
+                  >
+                    Tonen
+                  </button>
+                </div>
+              </div>
+
+              <div class="forgot-row">
+                <a href="#" class="forgot-link">Wachtwoord vergeten?</a>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Aanmelden
+              </button>
+
+              <div class="section-divider">
+                <span>Of meld je eenvoudig aan via</span>
+              </div>
+
+              <div class="btn-row" aria-label="Alternatieve aanmeldmethodes">
+                <a href="#" class="btn btn-itsme btn-outline">
+                  <span class="icon" aria-hidden="true"></span>
+                  <span> Aanmelden met itsme </span>
+                </a>
+                <a href="#" class="btn btn-eid btn-outline">
+                  <span class="icon" aria-hidden="true"></span>
+                  <span> Aanmelden met eID </span>
+                </a>
+              </div>
+
+              <div class="hint-row">
+                <div class="hint-badge">i</div>
+                <div>
+                  Ben je bij DELA verzekerd? Dan kan je via MijnDELA heel wat zaken zelf
+                  beheren, zoals polisdocumenten, begunstigde(n) en uitvaartwensen.
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="card card--flat" style="margin-top: 16px;">
+            <div class="card-header">
+              <h2 class="card-title">Nieuw hier?</h2>
+            </div>
+            <p style="font-size: 14px; color: var(--dela-muted); margin: 0 0 12px;">
+              Nog geen toegang tot MijnDELA? Maak in enkele stappen een account aan.
+            </p>
+            <a href="#" class="btn btn-ghost btn-sm">
+              Maak een account aan
+            </a>
+          </div>
+        </section>
+
+        <!-- RIGHT COLUMN: BENEFITS + NATURA INFO + EXTRA LINKS -->
+        <aside aria-label="Informatie over MijnDELA" class="stack">
+          <div class="card card--flat">
+            <span class="pill">
+              <span class="pill-dot"></span>
+              Iedereen kan zijn laatste wensen vastleggen of wijzigen.
+            </span>
+
+            <div class="benefits-title" style="margin-bottom: 6px;">
+              Ben je verzekerd* bij DELA?
+            </div>
+            <p class="benefits-text">
+              Dan kan je in deze omgeving ook:
+            </p>
+            <ul class="benefits-list">
+              <li>Je polis raadplegen en een duplicaat ervan downloaden</li>
+              <li>Een kind bijschrijven</li>
+              <li>Jouw persoonlijke gegevens of je begunstigden wijzigen</li>
+              <li>Enkele betalingsgegevens wijzigen</li>
+            </ul>
+            <p class="footnote">
+              *Deze mogelijkheid geldt voor klanten met een DELA-verzekering, behalve bij Natura-polissen.
+            </p>
+          </div>
+
+          <div class="card card--flat">
+            <div class="card-header">
+              <h2 class="card-title">Informatie over Natura-polissen</h2>
+            </div>
+
+            <details>
+              <summary>
+                <span class="summary-label">
+                  <span class="summary-icon">?</span>
+                  <span>Hoe weet ik of ik een Natura-polis heb?</span>
+                </span>
+                <span class="summary-chevron">›</span>
+              </summary>
+              <p>Jouw polisnummer bestaat uit een reeks van 1 tot 6 cijfers.</p>
+            </details>
+
+            <details>
+              <summary>
+                <span class="summary-label">
+                  <span class="summary-icon">i</span>
+                  <span>Wat moet ik doen als ik mijn Natura-polis wil inkijken of wijzigen?</span>
+                </span>
+                <span class="summary-chevron">›</span>
+              </summary>
+              <p>
+                Door technische beperkingen is het niet mogelijk om deze polis rechtstreeks
+                aan te passen of te raadplegen in MijnDELA. Onze excuses voor het ongemak.
+              </p>
+              <p>Wat kan je wel doen?</p>
+              <ul>
+                <li>
+                  Neem contact op met je vertrouwde bemiddelaar of de DELA-Klantendienst
+                  via 02 800 87 87 of per e-mail op <a href="mailto:info@dela.be">info@dela.be</a>
+                </li>
+                <li>
+                  Je kan ook het wijzigingsformulier downloaden en ingevuld inscannen
+                  aan <a href="mailto:wijziging@dela.be">wijziging@dela.be</a>
+                </li>
+                <li>
+                  Algemene informatie over je Natura-polis kan je hier terugvinden.
+                </li>
+              </ul>
+            </details>
+
+            <details>
+              <summary>
+                <span class="summary-label">
+                  <span class="summary-icon">★</span>
+                  <span>Kunnen mijn uitvaartwensen aan mijn Natura-polis gekoppeld worden?</span>
+                </span>
+                <span class="summary-chevron">›</span>
+              </summary>
+              <p>
+                Natuurlijk kan dat. Helaas is dit om dezelfde technische reden echter niet automatisch
+                mogelijk. We raden je aan om het volgende te doen:
+              </p>
+              <ol style="margin: 8px 0 6px 20px; padding-left: 4px; color: var(--dela-muted);">
+                <li>
+                  Vul je uitvaartwensen in via de veilige online omgeving op www.dela.be
+                </li>
+                <li>
+                  Mail het ingevulde document naar jezelf en mail het vervolgens naar
+                  <a href="mailto:mijnlaatstewensen@dela.be">mijnlaatstewensen@dela.be</a>
+                  met vermelding van je polisnummer of bezorg het aan een DELA uitvaartondernemer
+                  in je buurt.
+                </li>
+              </ol>
+              <p style="margin-top: 4px;">
+                Een DELA-medewerker voegt jouw wensen dan handmatig toe aan je polis.
+              </p>
+            </details>
+
+            <p class="natura-highlight">
+              (*) Niet mogelijk voor Natura-klanten.
+            </p>
+          </div>
+
+          <div class="info-footer">
+            <div class="info-footer-section">
+              <strong>Vooraf regelen</strong><br />
+              Uitvaartverzekering • Wat is een uitvaartverzekering? • DELA Uitvaartzorgplan •
+              Jouw premie berekenen • Jouw polis aanvragen • Vind een makelaar • Jouw uitvaartwensen vastleggen
+            </div>
+            <div class="info-footer-section">
+              <strong>MijnDELA</strong><br />
+              Uitvaartwensen beheren • Polis beheren • Download het DELA kaartje
+            </div>
+            <div class="info-footer-section">
+              <strong>Uitvaart &amp; contact</strong><br />
+              Wat te doen bij overlijden? • Een uitvaart regelen • Inspiratie • Onze uitvaartlocaties •
+              Overlijden melden 078 05 05 78 (24/24 - 7/7) • Klantendienst 02 800 87 87 (ma - vr 8u30 - 17u)
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  function togglePasswordVisibility() {
+    const input = document.getElementById("password");
+    const btn = document.querySelector(".toggle-password");
+    const isHidden = input.type === "password";
+    input.type = isHidden ? "text" : "password";
+    btn.textContent = isHidden ? "Verbergen" : "Tonen";
+    btn.setAttribute("aria-pressed", String(isHidden));
+  }
+</script>
+</body>
+</html>
